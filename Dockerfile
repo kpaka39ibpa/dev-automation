@@ -2,13 +2,13 @@
 
 WORKDIR /usr/share/nginx/html
 
-# Очищаем стандартные файлы Nginx
+# Очищаем стандартную страницу Nginx
 RUN rm -rf ./*
 
-# Копируем всё содержимое из подпапки avertizare
+# Копируем все файлы твоей карты из подпапки avertizare
 COPY avertizare/ ./
 
-# Создаем индексный редирект на viewer.html
+# Автоматически открываем viewer.html при входе на http://localhost:8080
 RUN echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=viewer.html"></head></html>' > index.html
 
 EXPOSE 80
