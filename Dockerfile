@@ -2,13 +2,13 @@
 
 WORKDIR /usr/share/nginx/html
 
-# Очищаем стандартную страницу Nginx
+# Очищаем дефолтный Nginx
 RUN rm -rf ./*
 
-# Копируем все файлы твоей карты из подпапки avertizare
+# Копируем только чистые фронтенд-файлы из avertizare
 COPY avertizare/ ./
 
-# Автоматически открываем viewer.html при входе на http://localhost:8080
+# Автоматический редирект на картографический viewer при входе на http://localhost:8080
 RUN echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=viewer.html"></head></html>' > index.html
 
 EXPOSE 80
