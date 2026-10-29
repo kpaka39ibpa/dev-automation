@@ -1,31 +1,51 @@
-﻿name: CI/CD Docker Pipeline
+﻿name: CI/CD Docker Pipeline with GHCR
 
-# Триггер: запускать пайплайн при каждом push или Pull Request в ветку main
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
+# Права для доступа и записи контейнеров в GHCR
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  build-and-test:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Скачиваем свежий код из репозитория
+    # 1. Скачиваем код из репозитория
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2. Проверяем работоспособность Docker
+    # 2. Настраиваем QEMU и Buildx для сборки
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    # 3. Собираем Docker-образ на серверах GitHub
-    - name: Build Docker Image
-      run: |
-        docker build -t automation-app:ci .
+    # 3. Авторизуемся в GitHub Container Registry (GHCR)
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-    # 4. Тестируем запуск контейнера
-    - name: Run Docker Container
+    # 4. Приводим имя репозитория к нижнему регистру (для корректного тега GHCR)
+    - name: Downcase repository name
       run: |
-        docker run --rm automation-app:ci
+        echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
+    # 5. Собираем и отправляем (push) образ в GHCR
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: |
+          ghcr.io/${{ env.REPO_NAME }}:latest
+          ghcr.io/${{ env.REPO_NAME }}:${{ github.sha }}
