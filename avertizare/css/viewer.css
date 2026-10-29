@@ -1,0 +1,310 @@
+/* ==========================================================================
+   АДАПТИВНЫЕ СТИЛИ ВИЗУАЛИЗАЦИИ AVERTIZAREA METEOROLOGICĂ
+   ========================================================================== */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #0f172a;
+}
+
+.leaflet-container,
+.leaflet-interactive,
+path.leaflet-interactive {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+}
+
+.meteo-viewer-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.map-frame {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 1. ВЕРХНЯЯ СВОДКА АКТИВНЫХ КОДОВ */
+.top-summary-bar {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 380px;
+    color: #fff;
+}
+
+.summary-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.top-codes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.code-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.code-pill.level-1 { background: #facc15; color: #000; }
+.code-pill.level-2 { background: #f97316; color: #fff; }
+.code-pill.level-3 { background: #ef4444; color: #fff; }
+
+.no-warnings-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ade80;
+}
+
+/* 2. ЛЕГЕНДА СНИЗУ/СПРАВА */
+.legend-panel {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.88);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.legend-color-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+.legend-color-box.level-0 { background: #22c55e; }
+.legend-color-box.level-1 { background: #facc15; }
+.legend-color-box.level-2 { background: #f97316; }
+.legend-color-box.level-3 { background: #ef4444; }
+
+/* 3. НИЖНЕЕ ИНФОРМАЦИОННОЕ ОКНО - КРУПНОЕ И ИДЕАЛЬНО ПО ЦЕНТРУ */
+.bottom-info-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: calc(100% - 32px);
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid #cbd5e1;
+    border-radius: 18px;
+    padding: 16px 20px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.panel-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.district-header-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    border-left: 6px solid #22c55e;
+    padding-left: 12px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.reset-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reset-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* СЕТКА КАРТОЧЕК БЕЗ СКРОЛЛБАРА */
+.details-content-grid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    padding-bottom: 2px;
+    
+    /* Скрытие полосы скролла для Firefox, IE/Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Скрытие полосы скролла для Chrome, Safari, Opera */
+.details-content-grid::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.details-content-grid > p {
+    text-align: center;
+    width: 100%;
+    font-size: 15px !important;
+    font-weight: 600;
+    color: #475569;
+    margin: 8px 0 !important;
+}
+
+.warning-card-item {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    flex-shrink: 0;
+}
+
+.card-head {
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 0.3px;
+}
+
+.warning-card-item.level-1 .card-head { background: #facc15; color: #000; }
+.warning-card-item.level-2 .card-head { background: #f97316; color: #fff; }
+.warning-card-item.level-3 .card-head { background: #ef4444; color: #fff; }
+
+.card-body {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #0f172a;
+    line-height: 1.5;
+}
+
+.card-meta {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.card-meta b {
+    color: #0f172a;
+}
+
+/* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
+@media (max-width: 768px) {
+    .top-summary-bar {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        max-width: none;
+    }
+
+    .legend-panel {
+        display: none;
+    }
+
+    .bottom-info-panel {
+        bottom: 0;
+        left: 0;
+        transform: none;
+        width: 100vw;
+        border-radius: 16px 16px 0 0;
+        padding: 12px 14px;
+    }
+
+    .district-header-title {
+        font-size: 17px;
+    }
+
+    .card-head {
+        font-size: 12px;
+    }
+
+    .card-body {
+        font-size: 13px;
+    }
+
+    .reset-btn {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+    }
+
+    .panel-header {
+        justify-content: space-between;
+    }
+}

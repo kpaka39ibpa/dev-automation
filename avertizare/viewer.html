@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avertizarea Meteorologică Moldova</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/config.css" />
+    <link rel="stylesheet" href="css/viewer.css" />
+</head>
+<body>
+
+    <div class="meteo-viewer-container">
+        
+        <!-- КАРТА НА ВЕСЬ ЭКРАН -->
+        <div id="meteo-viewer-map" class="map-frame"></div>
+
+        <!-- ВЕРХНЯЯ СВОДНАЯ ПАНЕЛЬ С АКТИВНЫМИ КОДАМИ И ЯВЛЕНИЯМИ -->
+        <div class="top-summary-bar">
+            <span class="summary-label">Avertizări active în Moldova:</span>
+            <div id="top-active-codes-list" class="top-codes-container">
+                <span class="no-warnings-text">🟢 Nu sunt avertizări active</span>
+            </div>
+        </div>
+
+        <!-- ЛЕГЕНДА КОДОВ ОПАСНОСТИ -->
+        <div class="legend-panel">
+            <div class="legend-item"><span class="legend-color-box level-0"></span> VERDE</div>
+            <div class="legend-item"><span class="legend-color-box level-1"></span> COD GALBEN</div>
+            <div class="legend-item"><span class="legend-color-box level-2"></span> COD PORTOCALIU</div>
+            <div class="legend-item"><span class="legend-color-box level-3"></span> COD ROȘU</div>
+        </div>
+
+        <!-- НИЖНЕЕ ИНФОРМАЦИОННОЕ ОКНО ПО ЦЕНТРУ -->
+        <div class="bottom-info-panel" id="bottom-info-panel">
+            <div class="panel-header">
+                <div id="district-info-box" class="district-header-title">
+                    REPUBLICA MOLDOVA
+                </div>
+                <button class="reset-btn" id="reset-map-btn" title="Resetare">✕ Reset</button>
+            </div>
+
+            <div id="view-details-list" class="details-content-grid">
+                <!-- Динамически подгружаются карточки предупреждений -->
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/viewer.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 ﻿services:
-  app:
+  meteo_app:
     build: .
-    container_name: dev_automation_container
-    restart: "no"
+    container_name: avertizare_meteo_service
+    ports:
+      - "8080:80"
+    restart: always

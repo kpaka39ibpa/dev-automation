@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avertizarea Meteorologică Moldova</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/config.css" />
+    <link rel="stylesheet" href="css/viewer.css" />
+</head>
+<body>
+
+    <div class="meteo-viewer-container">
+        
+        <!-- ВЕРХНЯЯ СВОДНАЯ ПАНЕЛЬ С АКТИВНЫМИ КОДАМИ И ЯВЛЕНИЯМИ -->
+        <div class="top-summary-bar">
+            <span class="summary-label">Avertizări active:</span>
+            <div id="top-active-codes-list" class="top-codes-container">
+                <span class="no-warnings-text">Nu sunt avertizări active</span>
+            </div>
+        </div>
+
+        <!-- ЛЕВАЯ / НИЖНЯЯ (НА МОБИЛЬНЫХ) ИНФОРМАЦИОННАЯ ПАНЕЛЬ -->
+        <div class="viewer-card-panel">
+            <h2 class="viewer-title">Avertizarea Meteorologică</h2>
+
+            <div id="district-info-box" class="district-header-box">
+                REPUBLICA MOLDOVA: VERDE
+            </div>
+
+            <div id="view-details-list"></div>
+        </div>
+
+        <!-- ЛЕГЕНДА КОДОВ ОПАСНОСТИ -->
+        <div class="legend-panel">
+            <div class="legend-item"><span class="legend-color-box" style="background: rgba(34, 197, 94, 0.75);"></span> VERDE</div>
+            <div class="legend-item"><span class="legend-color-box" style="background: rgba(250, 204, 21, 0.85);"></span> COD GALBEN</div>
+            <div class="legend-item"><span class="legend-color-box" style="background: rgba(249, 115, 22, 0.85);"></span> COD PORTOCALIU</div>
+            <div class="legend-item"><span class="legend-color-box" style="background: rgba(239, 68, 68, 0.85);"></span> COD ROȘU</div>
+        </div>
+
+        <!-- ПОЛНОЭКРАННОЕ ПОЛЕ КАРТЫ LEAFLET -->
+        <div id="meteo-viewer-map" class="map-frame"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/viewer.js"></script>
+</body>
+</html>

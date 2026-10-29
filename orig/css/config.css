@@ -1,0 +1,15 @@
+/* Базовые цвета и переменные Meteoalarm */
+:root {
+    --meteo-green: #22c55e;
+    --meteo-yellow: #facc15;
+    --meteo-orange: #f97316;
+    --meteo-red: #ef4444;
+
+    --meteo-slate-50: #f8fafc;
+    --meteo-slate-100: #f1f5f9;
+    --meteo-slate-200: #e2e8f0;
+    --meteo-slate-300: #cbd5e1;
+    --meteo-slate-600: #475569;
+    --meteo-slate-800: #1e293b;
+    --meteo-slate-900: #0f172a;
+}

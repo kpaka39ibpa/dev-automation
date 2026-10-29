@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор метеопредупреждений (Meteoalarm)</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/config.css" />
+    <link rel="stylesheet" href="css/editor.css" />
+</head>
+<body>
+
+    <div id="auth-modal-overlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-icon">🔒</div>
+            <h2>Доступ ограничен</h2>
+            <p>Панель редактора предупреждений предназначена только для авторизованных пользователей.</p>
+            
+            <div class="auth-input-group">
+                <label>Введите пароль доступа:</label>
+                <input type="password" id="auth-password-input" class="auth-input" placeholder="••••••••" onkeyup="if(event.key==='Enter') verifyAuth()">
+            </div>
+
+            <div id="auth-error-msg" class="auth-error">Неверный пароль!</div>
+
+            <button class="auth-btn" onclick="verifyAuth()">Войти в систему</button>
+        </div>
+    </div>
+
+    <div class="meteo-editor-container">
+        <div class="editor-controls">
+            <div class="editor-title">1. Выбор районов:</div>
+            <div id="selected-count" class="selected-info">Ничего не выбрано</div>
+
+            <div class="hint-text">
+                📐 Зажмите <b>Пробел</b> и тяните мышь квадратом для выделения районов.<br>
+                ➕ <b>Ctrl + клик</b> для точечного выбора.
+            </div>
+
+            <hr class="editor-divider">
+
+            <div class="editor-title">2. Параметры предупреждения:</div>
+            
+            <div class="form-group">
+                <label>Код опасности:</label>
+                <select id="meta-level" class="form-select">
+                    <option value="1">🟡 COD GALBEN (Желтый)</option>
+                    <option value="2">🟠 COD PORTOCALIU (Оранжевый)</option>
+                    <option value="3">🔴 COD ROȘU (Красный)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fenomene (Тип явления Meteoalarm):</label>
+                <select id="meta-phenomena" class="form-select" onchange="onPhenomenaChange(this.value)">
+                    <option value="wind">💨 Intensificări ale vântului (Ветер)</option>
+                    <option value="rain">🌧️ Ploi puternice / Averse (Дожди)</option>
+                    <option value="thunderstorm">⚡ Descărcări electrice (Грозы)</option>
+                    <option value="hail">🧊 Grindină (Град)</option>
+                    <option value="heat">🌡️ Caniculă (Жара)</option>
+                    <option value="frost">❄️ Înghețuri (Заморозки)</option>
+                    <option value="fog">🌫️ Ceață (Туман)</option>
+                    <option value="snow_ice">🌨️ Polei / Ghețuș / Viscol (Снег/Гололед)</option>
+                    <option value="fire">🔥 Pericol excepțional de incendiu (Пожароопасность)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Data emiterii (Время выпуска):</label>
+                <input type="text" id="meta-issue-date" class="form-input" placeholder="YYYY-MM-DD HH:mm">
+            </div>
+
+            <div class="form-group">
+                <label>Начало действия (Inceput):</label>
+                <input type="text" id="meta-start-date" class="form-input" placeholder="YYYY-MM-DD HH:mm">
+            </div>
+
+            <div class="form-group">
+                <label>Конец действия (Sfârșit):</label>
+                <input type="text" id="meta-end-date" class="form-input" placeholder="YYYY-MM-DD HH:mm">
+            </div>
+
+            <div class="form-group">
+                <label>Описание предупреждения:</label>
+                <textarea id="meta-text" rows="3" class="form-input"></textarea>
+            </div>
+
+            <button class="export-btn apply-btn" onclick="addWarningDraft()">🎨 Применить (в черновик)</button>
+
+            <hr class="editor-divider">
+
+            <div class="editor-title">Сохраненные итоговые предупреждения:</div>
+            <div id="warnings-tree" class="warnings-tree-container">
+                <div style="font-size:11px; color:#94a3b8;">Нет сохраненных предупреждений</div>
+            </div>
+
+            <button class="export-btn" onclick="exportWarningJSON()">💾 Скачать meteo_warning_active.json</button>
+            <button class="logout-btn" onclick="logoutEditor()">🔒 Выйти из системы</button>
+        </div>
+
+        <div id="draft-preview-panel" class="draft-card-floating" style="display: none;">
+            <div class="draft-panel-header">
+                <span>📝 Несохраненные черновики (<span id="drafts-count">0</span>)</span>
+                <button class="clear-all-drafts-btn" onclick="clearAllDrafts()">Очистить все</button>
+            </div>
+
+            <div id="drafts-list-container" class="drafts-list"></div>
+
+            <button class="export-btn generate-btn" style="margin-top: 10px; width: 100%;" onclick="saveAllDraftsToFinal()">💾 Сохранить ВСЕ черновики</button>
+        </div>
+
+        <div id="meteo-map" class="map-frame"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/editor.js"></script>
+</body>
+</html>
